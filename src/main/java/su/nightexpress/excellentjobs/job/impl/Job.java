@@ -45,7 +45,7 @@ public class Job extends AbstractFileData<JobsPlugin> implements Placeholder {
     private List<String> description;
     private boolean      permissionRequired;
     private ItemStack    icon;
-    private JobState     initialState;
+    private JobState     initialState = JobState.INACTIVE;
     private int          maxLevel;
     private int          maxSecondaryLevel;
     private int          initialXP;
@@ -270,17 +270,11 @@ public class Job extends AbstractFileData<JobsPlugin> implements Placeholder {
         config.set("Leveling.XP_Initial", this.getInitialXP());
         config.set("Leveling.XP_Factor", this.getXPFactor());
         config.remove("Leveling.LevelUp_Commands");
-        this.getLevelUpCommands().forEach((level, list) -> {
-            config.set("Leveling.LevelUp_Commands." + level, list);
-        });
+        this.getLevelUpCommands().forEach((level, list) -> config.set("Leveling.LevelUp_Commands." + level, list));
         config.remove("Payment_Modifier.Currency");
-        this.getPaymentMultiplier().forEach((id, mod) -> {
-            mod.write(config, "Payment_Modifier.Currency." + id);
-        });
+        this.getPaymentMultiplier().forEach((id, mod) -> mod.write(config, "Payment_Modifier.Currency." + id));
         config.remove("Daily_Limits.Currency");
-        this.getDailyPaymentLimits().forEach((id, mod) -> {
-            mod.write(config, "Daily_Limits.Currency." + id);
-        });
+        this.getDailyPaymentLimits().forEach((id, mod) -> mod.write(config, "Daily_Limits.Currency." + id));
 
         this.getXPMultiplier().write(config, "Payment_Modifier.XP");
         this.getDailyXPLimits().write(config, "Daily_Limits.XP");
